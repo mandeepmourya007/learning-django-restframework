@@ -1,0 +1,14 @@
+ wrappers provide a few bits of functionality such as making sure you receive Request instances in your view, and adding context to Response objects so that content negotiation can be performed.
+
+ Response objects
+REST framework also introduces a Response object, which is a type of TemplateResponse that takes
+unrendered content and uses content negotiation to determine the correct content type to return
+ to the client.
+what about csrf?????????
+return Response(data)  # Renders to content type as requested by the client.
+
+
+t2 lst
+If you add a --debug switch to the http requests above, you will be able to see the request type in request headers.
+
+Now go and open the API in a web browser, by visiting http://127.0.0.1:8000/snippets/.
