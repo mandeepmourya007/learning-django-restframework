@@ -21,11 +21,11 @@ from learn_rfw.quickstart import views
 
 
 router = routers.DefaultRouter()
-router.register("user",views.UserViewSet)
+router.register("users",views.UserViewSet)
 router.register("groups",views.GroupViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-
+    path('api/', include('rest_framework.urls', namespace='rest_framework')),
+    path("",include(router.urls))
 ]
