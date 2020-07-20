@@ -26,7 +26,7 @@ router.register("groups",views.GroupViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('rest_framework.urls', namespace='rest_framework')),
+    path('auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("q/",include(router.urls)),
     path('t1/', include('snippets.urls')),
 ]

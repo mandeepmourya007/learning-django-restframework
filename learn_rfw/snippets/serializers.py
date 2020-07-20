@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from django.contrib.auth.models import User
 from . models import snippets,Language_CHOICES,STYLE_CHOICES
 
 ''' here Serialiser is used  there we have to rewrite fields'''
@@ -38,5 +38,17 @@ class SnippetsSerializer(serializers.ModelSerializer):
         fields =  ['id', 'title', 'code', 'linenos', 'language', 'style']
 
         ''' we can see representaion using below code
-            serializer = SnippetSerializer()
+            serializer = SnippetsSerializer()
             print(repr(serializer)) '''
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=snippets.objects.all())
+
+                            # ????????????????
+    # Snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=snippets.objects.all())
+    owner = serializers.ReadOnlyField(source='owner.username')
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'snippets','owner']
