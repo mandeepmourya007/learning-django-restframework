@@ -31,24 +31,43 @@ from . models import snippets,Language_CHOICES,STYLE_CHOICES
 
 ''' here ModelSerialiser is used no need to rewrite '''
 
-class SnippetsSerializer(serializers.ModelSerializer):
+# class SnippetsSerializer(serializers.ModelSerializer):
 
+#     class Meta:
+#         model = snippets
+#         fields =  ['id', 'title', 'code', 'linenos', 'language', 'style']
+
+#         ''' we can see representaion using below code
+#             serializer = SnippetsSerializer()
+#             print(repr(serializer)) '''
+
+
+
+# class UserSerializer(serializers.ModelSerializer):
+#     snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=snippets.objects.all())
+
+#                             # ????????????????
+#     # Snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=snippets.objects.all())
+#     owner = serializers.ReadOnlyField(source='owner.username')
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'snippets','owner']
+
+
+# t5
+'''  HyperlinkedModelSerializer'''
+class SnippetsSerializer(serializers.HyperlinkedModelSerializer):
+
+    owner =serializers.ReadOnlyField(source = "owner.username")
+    highlight = serializers.HyperlinkedIdentityField(view_name='snippet-highlight',format='html')
     class Meta:
         model = snippets
-        fields =  ['id', 'title', 'code', 'linenos', 'language', 'style']
+        fields = ['url', 'id', 'highlight', 'owner',
+                  'title', 'code', 'linenos', 'language', 'style']
 
-        ''' we can see representaion using below code
-            serializer = SnippetsSerializer()
-            print(repr(serializer)) '''
-
-
-
-class UserSerializer(serializers.ModelSerializer):
-    snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=snippets.objects.all())
-
-                            # ????????????????
-    # Snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=snippets.objects.all())
-    owner = serializers.ReadOnlyField(source='owner.username')
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    
+    snippets = serializers.HyperlinkedRelatedField(view_name='snippets-detail',many=True,read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'snippets','owner']
+        fields = ['url', 'id', 'username', 'snippets']
