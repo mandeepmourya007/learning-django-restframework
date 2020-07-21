@@ -15,3 +15,4 @@ Now go and open the API in a web browser, by visiting http://127.0.0.1:8000/snip
 
 t5
 StaticHTMLRenderer
+snippets-detail work but snippet-detail give error
